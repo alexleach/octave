@@ -23,20 +23,21 @@
 //
 ////////////////////////////////////////////////////////////////////////
 
-#if ! defined (octave_graphics_init_h)
-#define octave_graphics_init_h 1
+#if ! defined (octave__init_qt___h)
+#define octave__init_qt___h 1
 
-#include <QObject>
+namespace QtHandles
+{
 
-#include "qt-interpreter-events.h"
+  bool __init__ (void);
+
+}
 
 namespace octave
 {
-  class interpreter;
-
-  class base_qobject;
-
-  extern void graphics_init (interpreter& interp, base_qobject& oct_qobj);
+  class symbol_table;
 }
+
+extern void install___init_qt___functions (octave::symbol_table&);
 
 #endif

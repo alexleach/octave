@@ -32,7 +32,6 @@
 #include "qt-application.h"
 #include "qt-interpreter-events.h"
 
-#include "graphics-init.h"
 #include "input.h"
 #include "interpreter.h"
 
@@ -79,8 +78,6 @@ namespace octave
             m_interpreter = &interp;
 
             emit ready ();
-
-            graphics_init (interp, m_octave_qobj);
 
             // Start executing commands in the command window.
 
