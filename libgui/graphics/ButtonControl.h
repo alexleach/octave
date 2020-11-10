@@ -30,11 +30,6 @@
 
 class QAbstractButton;
 
-namespace octave
-{
-  class base_qobject;
-}
-
 namespace QtHandles
 {
 
@@ -43,8 +38,7 @@ namespace QtHandles
     Q_OBJECT
 
   public:
-    ButtonControl (octave::base_qobject& oct_qobj, const graphics_object& go,
-                   QAbstractButton *btn);
+    ButtonControl (const graphics_object& go, QAbstractButton *btn);
     ~ButtonControl (void);
 
   protected:

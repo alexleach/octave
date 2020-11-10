@@ -34,14 +34,11 @@
 #include "Container.h"
 #include "QtHandlesUtils.h"
 
-#include "octave-qobject.h"
-
 namespace QtHandles
 {
 
   RadioButtonControl*
-  RadioButtonControl::create (octave::base_qobject& oct_qobj,
-                              const graphics_object& go)
+  RadioButtonControl::create (const graphics_object& go)
   {
     Object *parent = Object::parentObject (go);
 
@@ -50,17 +47,15 @@ namespace QtHandles
         Container *container = parent->innerContainer ();
 
         if (container)
-          return new RadioButtonControl (oct_qobj, go,
-                                         new QRadioButton (container));
+          return new RadioButtonControl (go, new QRadioButton (container));
       }
 
     return nullptr;
   }
 
-  RadioButtonControl::RadioButtonControl (octave::base_qobject& oct_qobj,
-                                          const graphics_object& go,
+  RadioButtonControl::RadioButtonControl (const graphics_object& go,
                                           QRadioButton *radio)
-    : ButtonControl (oct_qobj, go, radio)
+    : ButtonControl (go, radio)
   {
     Object *parent = Object::parentObject (go);
     ButtonGroup *btnGroup = dynamic_cast<ButtonGroup *>(parent);

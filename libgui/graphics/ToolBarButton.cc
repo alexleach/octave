@@ -28,7 +28,6 @@
 // this file.
 
 #include <QAction>
-#include <QIcon>
 #include <QWidget>
 
 #include "ToolBarButton.h"
@@ -37,10 +36,17 @@
 
 namespace QtHandles
 {
+  static QIcon get_icon (const std::string& name)
+  {
+    octave::resource_manager& rmgr
+      = octave::__get_resource_manager__ ("get_icon");
+
+    return rmgr.icon (QString::fromStdString (name));
+  }
+
   template <typename T>
-  ToolBarButton<T>::ToolBarButton (octave::base_qobject& oct_qobj,
-                                   const graphics_object& go, QAction *action)
-    : Object (go, action), m_octave_qobj (oct_qobj), m_separator (nullptr)
+  ToolBarButton<T>::ToolBarButton (const graphics_object& go, QAction *action)
+    : Object (go, action), m_separator (nullptr)
   {
     typename T::properties& tp = properties<T> ();
 
@@ -149,14 +155,6 @@ namespace QtHandles
         Object::update (pId);
         break;
       }
-  }
-
-  template <typename T>
-  QIcon ToolBarButton<T>::get_icon (const std::string& name)
-  {
-    octave::resource_manager& rmgr = m_octave_qobj.get_resource_manager ();
-
-    return rmgr.icon (QString::fromStdString (name));
   }
 
 }

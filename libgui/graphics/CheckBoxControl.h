@@ -30,23 +30,16 @@
 
 class QCheckBox;
 
-namespace octave
-{
-  class base_qobject;
-}
-
 namespace QtHandles
 {
 
   class CheckBoxControl : public ButtonControl
   {
   public:
-    CheckBoxControl (octave::base_qobject& oct_qobj, const graphics_object& go,
-                     QCheckBox *box);
+    CheckBoxControl (const graphics_object& go, QCheckBox *box);
     ~CheckBoxControl (void);
 
-    static CheckBoxControl * create (octave::base_qobject& oct_qobj,
-                                     const graphics_object& go);
+    static CheckBoxControl * create (const graphics_object& go);
   };
 
 }

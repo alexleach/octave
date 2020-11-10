@@ -48,8 +48,6 @@
 #include "Table.h"
 #include "QtHandlesUtils.h"
 
-#include "octave-qobject.h"
-
 #include "graphics.h"
 #include "interpreter-private.h"
 #include "oct-stream.h"
@@ -429,7 +427,7 @@ namespace QtHandles
   }
 
   Table*
-  Table::create (octave::base_qobject& oct_qobj, const graphics_object& go)
+  Table::create (const graphics_object& go)
   {
     Object *parent = Object::parentObject (go);
 
@@ -438,14 +436,13 @@ namespace QtHandles
         Container *container = parent->innerContainer ();
 
         if (container)
-          return new Table (oct_qobj, go, new QTableWidget (container));
+          return new Table (go, new QTableWidget (container));
       }
 
     return 0;
   }
 
-  Table::Table (octave::base_qobject&, const graphics_object& go,
-                QTableWidget *tableWidget)
+  Table::Table (const graphics_object& go, QTableWidget *tableWidget)
     : Object (go, tableWidget), m_tableWidget (tableWidget), m_curData (),
       m_blockUpdates (false)
   {

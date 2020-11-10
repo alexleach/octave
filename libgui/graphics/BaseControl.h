@@ -31,19 +31,13 @@
 class QEvent;
 class QObject;
 
-namespace octave
-{
-  class base_qobject;
-}
-
 namespace QtHandles
 {
 
   class BaseControl : public Object
   {
   public:
-    BaseControl (octave::base_qobject& oct_qobj, const graphics_object& go,
-                 QWidget *w);
+    BaseControl (const graphics_object& go, QWidget *w);
     ~BaseControl (void);
 
     Container * innerContainer (void) { return nullptr; }

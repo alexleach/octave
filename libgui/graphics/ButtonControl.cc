@@ -40,10 +40,8 @@
 namespace QtHandles
 {
 
-  ButtonControl::ButtonControl (octave::base_qobject& oct_qobj,
-                                const graphics_object& go,
-                                QAbstractButton *btn)
-    : BaseControl (oct_qobj, go, btn), m_blockCallback (false)
+  ButtonControl::ButtonControl (const graphics_object& go, QAbstractButton *btn)
+    : BaseControl (go, btn), m_blockCallback (false)
   {
     uicontrol::properties& up = properties<uicontrol> ();
 

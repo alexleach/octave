@@ -33,11 +33,6 @@ class QAction;
 class QMenu;
 class QWidget;
 
-namespace octave
-{
-  class base_qobject;
-}
-
 namespace QtHandles
 {
 
@@ -46,12 +41,10 @@ namespace QtHandles
     Q_OBJECT
 
   public:
-    Menu (octave::base_qobject& oct_qobj, const graphics_object& go,
-          QAction *action, Object *parent);
+    Menu (const graphics_object& go, QAction *action, Object *parent);
     ~Menu (void);
 
-    static Menu * create (octave::base_qobject& oct_qobj,
-                          const graphics_object& go);
+    static Menu * create (const graphics_object& go);
 
     Container * innerContainer (void) { return nullptr; }
 

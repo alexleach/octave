@@ -32,8 +32,7 @@
 #include <QPalette>
 
 #include "gui-settings.h"
-#include "gui-preferences-gp.h"
-#include "octave-qobject.h"
+#include "resource-manager.h"
 
 #include "QtHandlesUtils.h"
 #include "annotation-dialog.h"
@@ -41,9 +40,8 @@
 
 using namespace QtHandles;
 
-annotation_dialog::annotation_dialog (octave::base_qobject& oct_qobj,
-                                      QWidget *p, const octave_value_list& pr):
-  QDialog (p), m_octave_qobj (oct_qobj), ui (new Ui::annotation_dialog)
+annotation_dialog::annotation_dialog (QWidget *p, const octave_value_list& pr):
+  QDialog (p), ui (new Ui::annotation_dialog)
 {
   props = pr;
 
@@ -55,7 +53,8 @@ annotation_dialog::init ()
 {
   ui->setupUi (this);
 
-  octave::resource_manager& rmgr = m_octave_qobj.get_resource_manager ();
+  octave::resource_manager& rmgr
+      = octave::__get_resource_manager__ ("annotation_dialog::init");
 
   octave::gui_settings *settings = rmgr.get_settings ();
 
@@ -101,7 +100,8 @@ annotation_dialog::button_clicked (QAbstractButton *button)
   QDialogButtonBox::ButtonRole button_role
     = ui->button_box->buttonRole (button);
 
-  octave::resource_manager& rmgr = m_octave_qobj.get_resource_manager ();
+  octave::resource_manager& rmgr
+      = octave::__get_resource_manager__ ("annotation_dialog::button_clicked");
 
   octave::gui_settings *settings = rmgr.get_settings ();
 

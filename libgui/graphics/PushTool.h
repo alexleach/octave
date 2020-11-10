@@ -28,11 +28,6 @@
 
 #include "ToolBarButton.h"
 
-namespace octave
-{
-  class base_qobject;
-}
-
 namespace QtHandles
 {
 
@@ -41,12 +36,10 @@ namespace QtHandles
     Q_OBJECT
 
   public:
-    PushTool (octave::base_qobject& oct_qobj, const graphics_object& go,
-              QAction *action);
+    PushTool (const graphics_object& go, QAction *action);
     ~PushTool (void);
 
-    static PushTool * create (octave::base_qobject& oct_qobj,
-                              const graphics_object& go);
+    static PushTool * create (const graphics_object& go);
 
   protected:
     void update (int pId);

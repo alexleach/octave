@@ -30,11 +30,6 @@
 
 class QComboBox;
 
-namespace octave
-{
-  class base_qobject;
-}
-
 namespace QtHandles
 {
 
@@ -43,12 +38,10 @@ namespace QtHandles
     Q_OBJECT
 
   public:
-    PopupMenuControl (octave::base_qobject& oct_qobj,
-                      const graphics_object& go, QComboBox *box);
+    PopupMenuControl (const graphics_object& go, QComboBox *box);
     ~PopupMenuControl (void);
 
-    static PopupMenuControl * create (octave::base_qobject& oct_qobj,
-                                      const graphics_object& go);
+    static PopupMenuControl * create (const graphics_object& go);
 
   protected:
     void update (int pId);

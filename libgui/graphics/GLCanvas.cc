@@ -50,10 +50,9 @@ namespace QtHandles
 #  endif
 #endif
 
-  GLCanvas::GLCanvas (octave::base_qobject& oct_qobj,
-                      const graphics_handle& gh, QWidget *xparent)
+  GLCanvas::GLCanvas (QWidget *xparent, const graphics_handle& gh)
     : OCTAVE_QT_OPENGL_WIDGET (OCTAVE_QT_OPENGL_WIDGET_FORMAT_ARGS xparent),
-      Canvas (oct_qobj, gh), m_glfcns (), m_renderer (m_glfcns)
+      Canvas (gh), m_glfcns (), m_renderer (m_glfcns)
   {
     setFocusPolicy (Qt::ClickFocus);
     setFocus ();

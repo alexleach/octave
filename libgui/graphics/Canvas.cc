@@ -75,10 +75,11 @@ namespace QtHandles
     m_redrawBlocked = block;
   }
 
-  QCursor
-  Canvas::make_cursor (const QString& name, int hot_x, int hot_y)
+  static QCursor
+  make_cursor (const QString& name, int hot_x  = -1, int hot_y = -1)
   {
-    octave::resource_manager& rmgr = m_octave_qobj.get_resource_manager ();
+    octave::resource_manager& rmgr
+      = octave::__get_resource_manager__ ("make_cursor");
 
     QIcon icon = rmgr.icon (name);
 
@@ -871,7 +872,7 @@ namespace QtHandles
 
                 octave_value_list props = ovl ("textbox", bb);
 
-                annotation_dialog anno_dlg (m_octave_qobj, w, props);
+                annotation_dialog anno_dlg (w, props);
 
                 if (anno_dlg.exec () == QDialog::Accepted)
                   {
@@ -1075,12 +1076,11 @@ namespace QtHandles
   }
 
   Canvas*
-  Canvas::create (octave::base_qobject& oct_qobj,
-                  const graphics_handle& handle, QWidget *parent,
-                  const std::string& /* name */)
+  Canvas::create (const std::string& /* name */, QWidget *parent,
+                  const graphics_handle& handle)
   {
     // Only OpenGL
-    return new GLCanvas (oct_qobj, handle, parent);
+    return new GLCanvas (parent, handle);
   }
 
 }

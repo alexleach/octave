@@ -37,12 +37,11 @@
 #include <QTimer>
 #include <QToolBar>
 
+#include "gui-preferences-global.h"
+
 #include "Figure.h"
 #include "ToolBar.h"
 #include "QtHandlesUtils.h"
-
-#include "gui-preferences-global.h"
-#include "octave-qobject.h"
 
 namespace QtHandles
 {
@@ -69,7 +68,7 @@ namespace QtHandles
   }
 
   ToolBar*
-  ToolBar::create (octave::base_qobject& oct_qobj, const graphics_object& go)
+  ToolBar::create (const graphics_object& go)
   {
     Object *parent = Object::parentObject (go);
 
@@ -78,14 +77,13 @@ namespace QtHandles
         QWidget *parentWidget = parent->qWidget<QWidget> ();
 
         if (parentWidget)
-          return new ToolBar (oct_qobj, go, new QToolBar (parentWidget));
+          return new ToolBar (go, new QToolBar (parentWidget));
       }
 
     return nullptr;
   }
 
-  ToolBar::ToolBar (octave::base_qobject&, const graphics_object& go,
-                    QToolBar *bar)
+  ToolBar::ToolBar (const graphics_object& go, QToolBar *bar)
     : Object (go, bar), m_empty (nullptr), m_figure (nullptr)
   {
     uitoolbar::properties& tp = properties<uitoolbar> ();

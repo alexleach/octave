@@ -57,8 +57,6 @@
 #include "ToolBar.h"
 #include "qt-graphics-toolkit.h"
 
-#include "octave-qobject.h"
-
 #include "event-manager.h"
 #include "graphics.h"
 #include "interpreter.h"
@@ -98,10 +96,8 @@ namespace QtHandles
     return "";
   }
 
-  qt_graphics_toolkit::qt_graphics_toolkit (octave::interpreter& interp,
-                                            octave::base_qobject& oct_qobj)
-    : QObject (), base_graphics_toolkit ("qt"), m_interpreter (interp),
-      m_octave_qobj (oct_qobj)
+  qt_graphics_toolkit::qt_graphics_toolkit (octave::interpreter& interp)
+    : QObject (), base_graphics_toolkit ("qt"), m_interpreter (interp)
   {
     // Implemented with a signal/slot connection in order to properly
     // cross from the interpreter thread (where requests to create
@@ -395,47 +391,47 @@ namespace QtHandles
                 Object *obj = nullptr;
 
                 if (go.isa ("figure"))
-                  obj = Figure::create (m_octave_qobj, go);
+                  obj = Figure::create (go);
                 else if (go.isa ("uicontrol"))
                   {
                     uicontrol::properties& up =
                       Utils::properties<uicontrol> (go);
 
                     if (up.style_is ("pushbutton"))
-                      obj = PushButtonControl::create (m_octave_qobj, go);
+                      obj = PushButtonControl::create (go);
                     else if (up.style_is ("edit"))
-                      obj = EditControl::create (m_octave_qobj, go);
+                      obj = EditControl::create (go);
                     else if (up.style_is ("checkbox"))
-                      obj = CheckBoxControl::create (m_octave_qobj, go);
+                      obj = CheckBoxControl::create (go);
                     else if (up.style_is ("radiobutton"))
-                      obj = RadioButtonControl::create (m_octave_qobj, go);
+                      obj = RadioButtonControl::create (go);
                     else if (up.style_is ("togglebutton"))
-                      obj = ToggleButtonControl::create (m_octave_qobj, go);
+                      obj = ToggleButtonControl::create (go);
                     else if (up.style_is ("text"))
-                      obj = TextControl::create (m_octave_qobj, go);
+                      obj = TextControl::create (go);
                     else if (up.style_is ("popupmenu"))
-                      obj = PopupMenuControl::create (m_octave_qobj, go);
+                      obj = PopupMenuControl::create (go);
                     else if (up.style_is ("slider"))
-                      obj = SliderControl::create (m_octave_qobj, go);
+                      obj = SliderControl::create (go);
                     else if (up.style_is ("listbox"))
-                      obj = ListBoxControl::create (m_octave_qobj, go);
+                      obj = ListBoxControl::create (go);
                   }
                 else if (go.isa ("uibuttongroup"))
-                  obj = ButtonGroup::create (m_octave_qobj, go);
+                  obj = ButtonGroup::create (go);
                 else if (go.isa ("uipanel"))
-                  obj = Panel::create (m_octave_qobj, go);
+                  obj = Panel::create (go);
                 else if (go.isa ("uimenu"))
-                  obj = Menu::create (m_octave_qobj, go);
+                  obj = Menu::create (go);
                 else if (go.isa ("uicontextmenu"))
-                  obj = ContextMenu::create (m_octave_qobj, go);
+                  obj = ContextMenu::create (go);
                 else if (go.isa ("uitable"))
-                  obj = Table::create (m_octave_qobj, go);
+                  obj = Table::create (go);
                 else if (go.isa ("uitoolbar"))
-                  obj = ToolBar::create (m_octave_qobj, go);
+                  obj = ToolBar::create (go);
                 else if (go.isa ("uipushtool"))
-                  obj = PushTool::create (m_octave_qobj, go);
+                  obj = PushTool::create (go);
                 else if (go.isa ("uitoggletool"))
-                  obj = ToggleTool::create (m_octave_qobj, go);
+                  obj = ToggleTool::create (go);
                 else
                   qWarning ("qt_graphics_toolkit::create_object: unsupported type '%s'",
                             go.type ().c_str ());

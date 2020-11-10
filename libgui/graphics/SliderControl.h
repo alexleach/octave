@@ -30,11 +30,6 @@
 
 class QAbstractSlider;
 
-namespace octave
-{
-  class base_qobject;
-}
-
 namespace QtHandles
 {
 
@@ -43,12 +38,10 @@ namespace QtHandles
     Q_OBJECT
 
   public:
-    SliderControl (octave::base_qobject& oct_qobj, const graphics_object& go,
-                   QAbstractSlider *slider);
+    SliderControl (const graphics_object& go, QAbstractSlider *slider);
     ~SliderControl (void);
 
-    static SliderControl * create (octave::base_qobject& oct_qobj,
-                                   const graphics_object& go);
+    static SliderControl * create (const graphics_object& go);
 
   protected:
     void update (int pId);

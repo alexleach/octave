@@ -33,11 +33,6 @@
 
 class QMenu;
 
-namespace octave
-{
-  class base_qobject;
-}
-
 namespace QtHandles
 {
 
@@ -46,13 +41,10 @@ namespace QtHandles
     Q_OBJECT
 
   public:
-    ContextMenu (octave::base_qobject& oct_qobj, const graphics_object& go,
-                 QMenu *menu);
+    ContextMenu (const graphics_object& go, QMenu *menu);
     ~ContextMenu (void);
 
-    static ContextMenu * create (octave::base_qobject& oct_qobj,
-                                 const graphics_object& go);
-
+    static ContextMenu * create (const graphics_object& go);
     static void executeAt (const base_properties& props, const QPoint& pt);
 
     Container * innerContainer (void) { return nullptr; }

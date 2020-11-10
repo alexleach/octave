@@ -28,11 +28,6 @@
 
 #include "ToolBarButton.h"
 
-namespace octave
-{
-  class base_qobject;
-}
-
 namespace QtHandles
 {
 
@@ -41,12 +36,10 @@ namespace QtHandles
     Q_OBJECT
 
   public:
-    ToggleTool (octave::base_qobject& oct_qobj, const graphics_object& go,
-                QAction *action);
+    ToggleTool (const graphics_object& go, QAction *action);
     ~ToggleTool (void);
 
-    static ToggleTool * create (octave::base_qobject& oct_qobj,
-                                const graphics_object& go);
+    static ToggleTool * create (const graphics_object& go);
 
   protected:
     void update (int pId);

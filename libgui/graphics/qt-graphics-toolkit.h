@@ -34,7 +34,6 @@
 namespace octave
 {
   class interpreter;
-  class base_qobject;
 }
 
 namespace QtHandles
@@ -49,8 +48,7 @@ namespace QtHandles
 
   public:
 
-    qt_graphics_toolkit (octave::interpreter& interp,
-                         octave::base_qobject& oct_qobj);
+    qt_graphics_toolkit (octave::interpreter& interp);
 
     ~qt_graphics_toolkit (void) = default;
 
@@ -122,8 +120,6 @@ namespace QtHandles
   private:
 
     octave::interpreter& m_interpreter;
-
-    octave::base_qobject& m_octave_qobj;
   };
 }
 
