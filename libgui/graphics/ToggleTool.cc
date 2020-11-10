@@ -37,27 +37,24 @@ namespace QtHandles
 {
 
   ToggleTool*
-  ToggleTool::create (octave::base_qobject& oct_qobj,
-                      octave::interpreter& interp, const graphics_object& go)
+  ToggleTool::create (octave::base_qobject& oct_qobj, const graphics_object& go)
   {
-    Object *parent = parentObject (interp, go);
+    Object *parent = Object::parentObject (go);
 
     if (parent)
       {
         QWidget *parentWidget = parent->qWidget<QWidget> ();
 
         if (parentWidget)
-          return new ToggleTool (oct_qobj, interp, go,
-                                 new QAction (parentWidget));
+          return new ToggleTool (oct_qobj, go, new QAction (parentWidget));
       }
 
     return nullptr;
   }
 
   ToggleTool::ToggleTool (octave::base_qobject& oct_qobj,
-                          octave::interpreter& interp,
                           const graphics_object& go, QAction *action)
-    : ToolBarButton<uitoggletool> (oct_qobj, interp, go, action)
+    : ToolBarButton<uitoggletool> (oct_qobj, go, action)
   {
     uitoggletool::properties& tp = properties<uitoggletool> ();
 

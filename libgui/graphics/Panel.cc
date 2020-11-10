@@ -42,7 +42,7 @@
 #include "octave-qobject.h"
 
 #include "graphics.h"
-#include "interpreter.h"
+#include "interpreter-private.h"
 
 namespace QtHandles
 {
@@ -93,27 +93,25 @@ namespace QtHandles
   }
 
   Panel*
-  Panel::create (octave::base_qobject& oct_qobj, octave::interpreter& interp,
-                 const graphics_object& go)
+  Panel::create (octave::base_qobject& oct_qobj, const graphics_object& go)
   {
-    Object *parent = parentObject (interp, go);
+    Object *parent = Object::parentObject (go);
 
     if (parent)
       {
         Container *container = parent->innerContainer ();
 
         if (container)
-          return new Panel (oct_qobj, interp, go, new QFrame (container));
+          return new Panel (oct_qobj, go, new QFrame (container));
       }
 
     return nullptr;
   }
 
-  Panel::Panel (octave::base_qobject& oct_qobj, octave::interpreter& interp,
-                const graphics_object& go, QFrame *frame)
-    : Object (oct_qobj, interp, go, frame), m_container (nullptr),
-      m_title (nullptr), m_blockUpdates (false),
-      m_previous_bbox (Matrix (1, 4, 0))
+  Panel::Panel (octave::base_qobject& oct_qobj, const graphics_object& go,
+                QFrame *frame)
+    : Object (go, frame), m_container (nullptr), m_title (nullptr),
+      m_blockUpdates (false)
   {
     uipanel::properties& pp = properties<uipanel> ();
 
@@ -128,7 +126,7 @@ namespace QtHandles
     setupPalette (pp, pal);
     frame->setPalette (pal);
 
-    m_container = new Container (frame, oct_qobj, interp);
+    m_container = new Container (frame, oct_qobj);
     m_container->canvas (m_handle);
 
     connect (m_container, SIGNAL (interpeter_event (const fcn_callback&)),
@@ -177,7 +175,7 @@ namespace QtHandles
   {
     if (! m_blockUpdates)
       {
-        gh_manager& gh_mgr = m_interpreter.get_gh_manager ();
+        gh_manager& gh_mgr = octave::__get_gh_manager__ ("Panel::eventFilter");
 
         if (watched == qObject ())
           {
@@ -221,8 +219,7 @@ namespace QtHandles
                       graphics_object go = object ();
 
                       if (go.valid_object ())
-                        ContextMenu::executeAt (m_interpreter,
-                                                go.get_properties (),
+                        ContextMenu::executeAt (go.get_properties (),
                                                 m->globalPos ());
                     }
                 }

@@ -47,7 +47,7 @@
 
 #include "octave-qobject.h"
 
-#include "interpreter.h"
+#include "interpreter-private.h"
 #include "ov-struct.h"
 
 namespace QtHandles
@@ -100,9 +100,9 @@ namespace QtHandles
 
   ButtonGroup*
   ButtonGroup::create (octave::base_qobject& oct_qobj,
-                       octave::interpreter& interp, const graphics_object& go)
+                       const graphics_object& go)
   {
-    Object *parent = parentObject (interp, go);
+    Object *parent = Object::parentObject (go);
 
     if (parent)
       {
@@ -111,8 +111,8 @@ namespace QtHandles
         if (container)
           {
             QFrame *frame = new QFrame (container);
-            return new ButtonGroup (oct_qobj, interp, go,
-                                    new QButtonGroup (frame), frame);
+            return new ButtonGroup (oct_qobj, go, new QButtonGroup (frame),
+                                    frame);
           }
       }
 
@@ -120,11 +120,10 @@ namespace QtHandles
   }
 
   ButtonGroup::ButtonGroup (octave::base_qobject& oct_qobj,
-                            octave::interpreter& interp,
                             const graphics_object& go,
                             QButtonGroup *buttongroup, QFrame *frame)
-    : Object (oct_qobj, interp, go, frame), m_hiddenbutton (nullptr),
-      m_container (nullptr), m_title (nullptr), m_blockUpdates (false)
+    : Object (go, frame), m_hiddenbutton(nullptr), m_container (nullptr),
+      m_title (nullptr), m_blockUpdates (false)
   {
     uibuttongroup::properties& pp = properties<uibuttongroup> ();
 
@@ -143,7 +142,7 @@ namespace QtHandles
     m_hiddenbutton->hide ();
     m_buttongroup->addButton (m_hiddenbutton);
 
-    m_container = new Container (frame, oct_qobj, interp);
+    m_container = new Container (frame, oct_qobj);
     m_container->canvas (m_handle);
 
     connect (m_container, SIGNAL (interpeter_event (const fcn_callback&)),
@@ -193,7 +192,7 @@ namespace QtHandles
   {
     if (! m_blockUpdates)
       {
-        gh_manager& gh_mgr = m_interpreter.get_gh_manager ();
+        gh_manager& gh_mgr = octave::__get_gh_manager__ ("ButtonGroup::eventFilter");
 
         if (watched == qObject ())
           {
@@ -234,8 +233,7 @@ namespace QtHandles
                     {
                       octave::autolock guard (gh_mgr.graphics_lock ());
 
-                      ContextMenu::executeAt (m_interpreter, properties (),
-                                              m->globalPos ());
+                      ContextMenu::executeAt (properties (), m->globalPos ());
                     }
                 }
                 break;
@@ -368,7 +366,7 @@ namespace QtHandles
         {
           graphics_handle h = pp.get_selectedobject ();
 
-          gh_manager& gh_mgr = m_interpreter.get_gh_manager ();
+          gh_manager& gh_mgr = octave::__get_gh_manager__ ("ButtonGroup::update");
 
           octave::autolock guard (gh_mgr.graphics_lock ());
 
@@ -473,7 +471,7 @@ namespace QtHandles
     Q_UNUSED (toggled);
     if (! m_blockUpdates)
       {
-        gh_manager& gh_mgr = m_interpreter.get_gh_manager ();
+        gh_manager& gh_mgr = octave::__get_gh_manager__ ("ButtonGroup::buttonToggled");
 
         octave::autolock guard (gh_mgr.graphics_lock ());
 
@@ -501,7 +499,7 @@ namespace QtHandles
   {
     Q_UNUSED (btn);
 
-    gh_manager& gh_mgr = m_interpreter.get_gh_manager ();
+    gh_manager& gh_mgr = octave::__get_gh_manager__ ("ButtonGroup::buttonClicked");
 
     octave::autolock guard (gh_mgr.graphics_lock ());
 

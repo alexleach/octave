@@ -40,17 +40,16 @@ namespace QtHandles
 
   PopupMenuControl*
   PopupMenuControl::create (octave::base_qobject& oct_qobj,
-                            octave::interpreter& interp,
                             const graphics_object& go)
   {
-    Object *parent = parentObject (interp, go);
+    Object *parent = Object::parentObject (go);
 
     if (parent)
       {
         Container *container = parent->innerContainer ();
 
         if (container)
-          return new PopupMenuControl (oct_qobj, interp, go,
+          return new PopupMenuControl (oct_qobj, go,
                                        new QComboBox (container));
       }
 
@@ -58,10 +57,8 @@ namespace QtHandles
   }
 
   PopupMenuControl::PopupMenuControl (octave::base_qobject& oct_qobj,
-                                      octave::interpreter& interp,
-                                      const graphics_object& go,
-                                      QComboBox *box)
-    : BaseControl (oct_qobj, interp, go, box), m_blockUpdate (false)
+                                      const graphics_object& go, QComboBox *box)
+    : BaseControl (oct_qobj, go, box), m_blockUpdate (false)
   {
     uicontrol::properties& up = properties<uicontrol> ();
 

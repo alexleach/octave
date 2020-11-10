@@ -40,7 +40,6 @@ class QScreen;
 namespace octave
 {
   class base_qobject;
-  class interpreter;
 }
 
 namespace QtHandles
@@ -72,13 +71,12 @@ namespace QtHandles
     friend class ToolBar;
 
   public:
-    Figure (octave::base_qobject& oct_qobj, octave::interpreter& interp,
-            const graphics_object& go, FigureWindow *win);
+    Figure (octave::base_qobject& oct_qobj, const graphics_object& go,
+            FigureWindow *win);
     ~Figure (void);
 
-    static Figure *
-    create (octave::base_qobject& oct_qobj, octave::interpreter& interp,
-            const graphics_object& go);
+    static Figure * create (octave::base_qobject& oct_qobj,
+                            const graphics_object& go);
 
     QString fileName (void);
     void setFileName (const QString& name);

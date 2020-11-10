@@ -33,7 +33,6 @@ class QPushButton;
 namespace octave
 {
   class base_qobject;
-  class interpreter;
 }
 
 namespace QtHandles
@@ -42,14 +41,12 @@ namespace QtHandles
   class PushButtonControl : public ButtonControl
   {
   public:
-    PushButtonControl (octave::base_qobject& oct_qobj,
-                       octave::interpreter& interp, const graphics_object& go,
+    PushButtonControl (octave::base_qobject& oct_qobj, const graphics_object& go,
                        QPushButton *btn);
     ~PushButtonControl (void);
 
-    static PushButtonControl *
-    create (octave::base_qobject& oct_qobj, octave::interpreter& interp,
-            const graphics_object& go);
+    static PushButtonControl * create (octave::base_qobject& oct_qobj,
+                                       const graphics_object& go);
 
   protected:
     void update (int pId);

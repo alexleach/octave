@@ -33,7 +33,6 @@ class QRadioButton;
 namespace octave
 {
   class base_qobject;
-  class interpreter;
 }
 
 namespace QtHandles
@@ -42,13 +41,11 @@ namespace QtHandles
   class RadioButtonControl : public ButtonControl
   {
   public:
-    RadioButtonControl (octave::base_qobject& oct_qobj,
-                        octave::interpreter& interp, const graphics_object& go,
+    RadioButtonControl (octave::base_qobject& oct_qobj, const graphics_object& go,
                         QRadioButton *box);
     ~RadioButtonControl (void);
 
     static RadioButtonControl * create (octave::base_qobject& oct_qobj,
-                                        octave::interpreter& interp,
                                         const graphics_object& go);
 
   protected:

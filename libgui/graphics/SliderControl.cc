@@ -36,7 +36,7 @@
 #include "octave-qobject.h"
 
 #include "graphics.h"
-#include "interpreter.h"
+#include "interpreter-private.h"
 
 #define RANGE_INT_MAX 1000000
 
@@ -45,28 +45,25 @@ namespace QtHandles
 
   SliderControl*
   SliderControl::create (octave::base_qobject& oct_qobj,
-                         octave::interpreter& interp,
                          const graphics_object& go)
   {
-    Object *parent = parentObject (interp, go);
+    Object *parent = Object::parentObject (go);
 
     if (parent)
       {
         Container *container = parent->innerContainer ();
 
         if (container)
-          return new SliderControl (oct_qobj, interp, go,
-                                    new QScrollBar (container));
+          return new SliderControl (oct_qobj, go, new QScrollBar (container));
       }
 
     return nullptr;
   }
 
   SliderControl::SliderControl (octave::base_qobject& oct_qobj,
-                                octave::interpreter& interp,
                                 const graphics_object& go,
                                 QAbstractSlider *slider)
-    : BaseControl (oct_qobj, interp, go, slider), m_blockUpdates (false)
+    : BaseControl (oct_qobj, go, slider), m_blockUpdates (false)
   {
     uicontrol::properties& up = properties<uicontrol> ();
 
@@ -141,7 +138,7 @@ namespace QtHandles
   {
     if (! m_blockUpdates)
       {
-        gh_manager& gh_mgr = m_interpreter.get_gh_manager ();
+        gh_manager& gh_mgr = octave::__get_gh_manager__ ("SliderControl::valueChanged");
 
         octave::autolock guard (gh_mgr.graphics_lock ());
 

@@ -50,8 +50,7 @@ namespace QtHandles
     Q_OBJECT
 
   public:
-    Container (QWidget *parent, octave::base_qobject& oct_qobj,
-               octave::interpreter& interp);
+    Container (QWidget *parent, octave::base_qobject& oct_qobj);
     ~Container (void);
 
     Canvas * canvas (const graphics_handle& handle, bool create = true);
@@ -82,7 +81,6 @@ namespace QtHandles
 
   private:
     octave::base_qobject& m_octave_qobj;
-    octave::interpreter& m_interpreter;
     Canvas *m_canvas;
   };
 

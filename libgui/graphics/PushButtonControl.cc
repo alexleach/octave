@@ -41,17 +41,16 @@ namespace QtHandles
 
   PushButtonControl*
   PushButtonControl::create (octave::base_qobject& oct_qobj,
-                             octave::interpreter& interp,
                              const graphics_object& go)
   {
-    Object *parent = parentObject (interp, go);
+    Object *parent = Object::parentObject (go);
 
     if (parent)
       {
         Container *container = parent->innerContainer ();
 
         if (container)
-          return new PushButtonControl (oct_qobj, interp, go,
+          return new PushButtonControl (oct_qobj, go,
                                         new QPushButton (container));
       }
 
@@ -59,10 +58,9 @@ namespace QtHandles
   }
 
   PushButtonControl::PushButtonControl (octave::base_qobject& oct_qobj,
-                                        octave::interpreter& interp,
                                         const graphics_object& go,
                                         QPushButton *btn)
-    : ButtonControl (oct_qobj, interp, go, btn)
+    : ButtonControl (oct_qobj, go, btn)
   {
     uicontrol::properties& up = properties<uicontrol> ();
 
