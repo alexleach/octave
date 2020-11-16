@@ -33,35 +33,27 @@
 #include "PopupMenuControl.h"
 #include "QtHandlesUtils.h"
 
-#include "octave-qobject.h"
-
 namespace QtHandles
 {
 
   PopupMenuControl*
-  PopupMenuControl::create (octave::base_qobject& oct_qobj,
-                            octave::interpreter& interp,
-                            const graphics_object& go)
+  PopupMenuControl::create (const graphics_object& go)
   {
-    Object *parent = parentObject (interp, go);
+    Object *parent = Object::parentObject (go);
 
     if (parent)
       {
         Container *container = parent->innerContainer ();
 
         if (container)
-          return new PopupMenuControl (oct_qobj, interp, go,
-                                       new QComboBox (container));
+          return new PopupMenuControl (go, new QComboBox (container));
       }
 
     return nullptr;
   }
 
-  PopupMenuControl::PopupMenuControl (octave::base_qobject& oct_qobj,
-                                      octave::interpreter& interp,
-                                      const graphics_object& go,
-                                      QComboBox *box)
-    : BaseControl (oct_qobj, interp, go, box), m_blockUpdate (false)
+  PopupMenuControl::PopupMenuControl (const graphics_object& go, QComboBox *box)
+    : BaseControl (go, box), m_blockUpdate (false)
   {
     uicontrol::properties& up = properties<uicontrol> ();
 

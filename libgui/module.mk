@@ -56,7 +56,7 @@ nodist_%canon_reldir%_liboctgui_la_SOURCES = \
   %reldir%/src/libgui-src.la \
   libinterp/liboctinterp.la \
   liboctave/liboctave.la \
-  $(LIBOCTGUI_LINK_DEPS)
+  $(QT_LIBS)
 
 ## Increment the following version numbers as needed and according
 ## to the rules in the etc/HACKING.md file:

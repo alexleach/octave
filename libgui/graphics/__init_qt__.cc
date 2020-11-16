@@ -32,7 +32,6 @@ along with Octave; see the file COPYING.  If not, see
 #include <QRegExp>
 #include <QThread>
 
-#include "octave-qobject.h"
 #include "qt-graphics-toolkit.h"
 #include "QtHandlesUtils.h"
 #include "__init_qt__.h"
@@ -43,7 +42,7 @@ along with Octave; see the file COPYING.  If not, see
 #include "interpreter.h"
 #include "symtab.h"
 
-// PKG_ADD: if (__have_feature__ ("QT") && __have_feature__ ("OPENGL") && have_window_system () && __event_manager_enabled__ ()) register_graphics_toolkit ("qt"); endif
+// PKG_ADD: if (__have_feature__ ("QT") && __have_feature__ ("OPENGL") && have_window_system ()) register_graphics_toolkit ("qt"); endif
 
 namespace QtHandles
 {
@@ -67,24 +66,19 @@ namespace QtHandles
 
             gh_mgr.enable_event_processing (true);
 
-            // FIXME: temporary?
-            octave::base_qobject& octave_qobj
-              = *(octave::base_qobject::the_octave_qobject ());
-
-            qt_graphics_toolkit *qt_gtk
-              = new qt_graphics_toolkit (interp, octave_qobj);
+            qt_graphics_toolkit *qt_gtk = new qt_graphics_toolkit (interp);
 
             if (QThread::currentThread ()
                 != QApplication::instance ()->thread ())
               qt_gtk->moveToThread (QApplication::instance ()->thread ());
 
-            graphics_toolkit tk (qt_gtk);
+            octave::graphics_toolkit tk (qt_gtk);
 
             octave::gtk_manager& gtk_mgr = interp.get_gtk_manager ();
 
             gtk_mgr.load_toolkit (tk);
 
-            octave::interpreter::add_atexit_function ("__shutdown_qt__");
+            interp.add_atexit_fcn ("__shutdown_qt__");
 
             qtHandlesInitialized = true;
 
@@ -144,8 +138,6 @@ install___init_qt___functions (octave::symbol_table& symtab)
                                       (F__shutdown_qt__, "__shutdown_qt__",
                                        "__init_qt__.cc", "")));
 }
-
-#if 0
 
 static QStringList
 makeFilterSpecs (const Cell& filters)
@@ -252,7 +244,7 @@ DEFUN_DLD (__uigetfile_qt__, args, , "")
       QString filter;
       QString fileName =
         QFileDialog::getOpenFileName (0, caption, defaultFileName,
-                                      filterSpecs.join (";;"), &filter, 0);
+                                      filterSpecs.join (";;"), &filter);
 
       if (! fileName.isNull ())
         {
@@ -300,7 +292,7 @@ DEFUN_DLD (__uiputfile_qt__, args, , "")
   QString filter;
   QString fileName =
     QFileDialog::getSaveFileName (0, caption, defaultFileName,
-                                  filterSpecs.join (";;"), &filter, 0);
+                                  filterSpecs.join (";;"), &filter);
 
   if (! fileName.isNull ())
     {
@@ -339,5 +331,3 @@ DEFUN_DLD (__uigetdir_qt__, args, , "")
 
   return retval;
 }
-
-#endif

@@ -33,11 +33,6 @@
 #include "event-manager.h"
 #include "graphics.h"
 
-namespace octave
-{
-  class base_qobject;
-}
-
 namespace QtHandles
 {
 
@@ -50,8 +45,7 @@ namespace QtHandles
     Q_OBJECT
 
   public:
-    Container (QWidget *parent, octave::base_qobject& oct_qobj,
-               octave::interpreter& interp);
+    Container (QWidget *parent);
     ~Container (void);
 
     Canvas * canvas (const graphics_handle& handle, bool create = true);
@@ -81,8 +75,6 @@ namespace QtHandles
     void resizeEvent (QResizeEvent *event);
 
   private:
-    octave::base_qobject& m_octave_qobj;
-    octave::interpreter& m_interpreter;
     Canvas *m_canvas;
   };
 

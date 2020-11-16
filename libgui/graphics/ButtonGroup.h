@@ -34,12 +34,6 @@ class QFrame;
 class QLabel;
 class QRadioButton;
 
-namespace octave
-{
-  class base_qobject;
-  class interpreter;
-}
-
 namespace QtHandles
 {
 
@@ -50,8 +44,7 @@ namespace QtHandles
     Q_OBJECT
 
   public:
-    ButtonGroup (octave::base_qobject& oct_qobj, octave::interpreter& interp,
-                 const graphics_object& go, QButtonGroup *buttongroup,
+    ButtonGroup (const graphics_object& go, QButtonGroup *buttongroup,
                  QFrame *frame);
     ~ButtonGroup (void);
 
@@ -59,9 +52,7 @@ namespace QtHandles
 
     bool eventFilter (QObject *watched, QEvent *event);
 
-    static ButtonGroup *
-    create (octave::base_qobject& oct_qobj, octave::interpreter& interp,
-            const graphics_object& go);
+    static ButtonGroup * create (const graphics_object& go);
 
     void addButton (QAbstractButton *btn);
 

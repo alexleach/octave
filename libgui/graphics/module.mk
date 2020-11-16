@@ -25,6 +25,24 @@ OCTAVE_GUI_GRAPHICS_MOC = \
   %reldir%/moc-annotation-dialog.cc \
   %reldir%/moc-qt-graphics-toolkit.cc
 
+__init_qt__ICONS = \
+  %reldir%/icons/bottom_left_corner.png \
+  %reldir%/icons/bottom_right_corner.png \
+  %reldir%/icons/bottom_side.png \
+  %reldir%/icons/circle.png \
+  %reldir%/icons/cross.png \
+  %reldir%/icons/figure-pan.png \
+  %reldir%/icons/figure-rotate.png \
+  %reldir%/icons/figure-zoom-in.png \
+  %reldir%/icons/figure-zoom-out.png \
+  %reldir%/icons/fleur.png \
+  %reldir%/icons/hand2.png \
+  %reldir%/icons/left_side.png \
+  %reldir%/icons/right_side.png \
+  %reldir%/icons/top_left_corner.png \
+  %reldir%/icons/top_right_corner.png \
+  %reldir%/icons/top_side.png
+
 $(OCTAVE_GUI_GRAPHICS_MOC): | %reldir%/$(octave_dirstamp)
 
 DIRSTAMP_FILES += \
@@ -132,7 +150,7 @@ nodist_%canon_reldir%___init_qt___la_SOURCES = $(__init_qt___MOC)
   @OCTGUI_DLL_DEFS@ \
   @QT_OPENGL_CPPFLAGS@ \
   -Ilibgui/graphics -I$(srcdir)/libgui/graphics \
-  -Isrc -I$(srcdir)/libgui/src \
+  -Isrc \
   -Iliboctave \
   -I$(srcdir)/liboctave/array \
   -Iliboctave/numeric -I$(srcdir)/liboctave/numeric \
@@ -188,6 +206,8 @@ OCT_FILE_PKG_ADD_FILES += \
 
 libgui_EXTRA_DIST += \
   $(__init_qt___UI)
+  %reldir%/resource.qrc \
+  $(__init_qt__ICONS)
 
 libgui_CLEANFILES += \
   $(GRAPHICS_OCT_FILES) \

@@ -29,13 +29,6 @@
 #include "Object.h"
 
 class QAction;
-class QIcon;
-
-namespace octave
-{
-  class base_qobject;
-  class interpreter;
-}
 
 namespace QtHandles
 {
@@ -46,8 +39,7 @@ namespace QtHandles
   class ToolBarButton : public Object
   {
   public:
-    ToolBarButton (octave::base_qobject& oct_qobj, octave::interpreter& interp,
-                   const graphics_object& go, QAction *action);
+    ToolBarButton (const graphics_object& go, QAction *action);
     ~ToolBarButton (void);
 
     Container * innerContainer (void) { return nullptr; }
@@ -57,8 +49,6 @@ namespace QtHandles
 
   private:
     QAction *m_separator;
-
-    QIcon get_icon (const std::string& name);
   };
 
 };

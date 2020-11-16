@@ -48,10 +48,8 @@
 #include "Table.h"
 #include "QtHandlesUtils.h"
 
-#include "octave-qobject.h"
-
 #include "graphics.h"
-#include "interpreter.h"
+#include "interpreter-private.h"
 #include "oct-stream.h"
 #include "oct-string.h"
 #include "oct-strstrm.h"
@@ -429,26 +427,24 @@ namespace QtHandles
   }
 
   Table*
-  Table::create (octave::base_qobject& oct_qobj, octave::interpreter& interp,
-                 const graphics_object& go)
+  Table::create (const graphics_object& go)
   {
-    Object *parent = parentObject (interp, go);
+    Object *parent = Object::parentObject (go);
 
     if (parent)
       {
         Container *container = parent->innerContainer ();
 
         if (container)
-          return new Table (oct_qobj, interp, go, new QTableWidget (container));
+          return new Table (go, new QTableWidget (container));
       }
 
     return 0;
   }
 
-  Table::Table (octave::base_qobject& oct_qobj, octave::interpreter& interp,
-                const graphics_object& go, QTableWidget *tableWidget)
-    : Object (oct_qobj, interp, go, tableWidget), m_tableWidget (tableWidget),
-      m_curData (), m_blockUpdates (false)
+  Table::Table (const graphics_object& go, QTableWidget *tableWidget)
+    : Object (go, tableWidget), m_tableWidget (tableWidget), m_curData (),
+      m_blockUpdates (false)
   {
     qObject ()->setObjectName ("UItable");
     uitable::properties& tp = properties<uitable> ();
@@ -569,7 +565,7 @@ namespace QtHandles
 
     m_blockUpdates = true;
 
-    gh_manager& gh_mgr = m_interpreter.get_gh_manager ();
+    gh_manager& gh_mgr = octave::__get_gh_manager__ ("Table::comboBoxCurrentIndexChanged");
 
     octave::autolock guard (gh_mgr.graphics_lock ());
 
@@ -689,7 +685,7 @@ namespace QtHandles
       return;
     m_blockUpdates = true;
 
-    gh_manager& gh_mgr = m_interpreter.get_gh_manager ();
+    gh_manager& gh_mgr = octave::__get_gh_manager__ ("Table::checkBoxClicked");
 
     octave::autolock guard (gh_mgr.graphics_lock ());
 
@@ -805,7 +801,7 @@ namespace QtHandles
       return;
     m_blockUpdates = true;
 
-    gh_manager& gh_mgr = m_interpreter.get_gh_manager ();
+    gh_manager& gh_mgr = octave::__get_gh_manager__ ("Table::itemChanged");
 
     octave::autolock guard (gh_mgr.graphics_lock ());
 
@@ -1508,7 +1504,7 @@ namespace QtHandles
   bool
   Table::eventFilter (QObject *watched, QEvent *xevent)
   {
-    gh_manager& gh_mgr = m_interpreter.get_gh_manager ();
+    gh_manager& gh_mgr = octave::__get_gh_manager__ ("Table::eventFilter");
 
     //uitable::properties& tp = properties<uitable> ();
     if (qobject_cast<QTableWidget *> (watched))
@@ -1552,8 +1548,7 @@ namespace QtHandles
                   emit gh_callback_event (m_handle, "buttondownfcn");
 
                   if (m->button () == Qt::RightButton)
-                    ContextMenu::executeAt (m_interpreter, properties (),
-                                            m->globalPos ());
+                    ContextMenu::executeAt (properties (), m->globalPos ());
                 }
               else
                 {
@@ -1695,7 +1690,7 @@ namespace QtHandles
                   emit gh_callback_event (m_handle, "buttondownfcn");
 
                   if (m->button () == Qt::RightButton)
-                    ContextMenu::executeAt (m_interpreter, tp, m->globalPos ());
+                    ContextMenu::executeAt (tp, m->globalPos ());
                 }
               else
                 {

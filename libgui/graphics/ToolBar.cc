@@ -41,8 +41,7 @@
 #include "ToolBar.h"
 #include "QtHandlesUtils.h"
 
-#include "gui-preferences-global.h"
-#include "octave-qobject.h"
+#include <iostream>
 
 namespace QtHandles
 {
@@ -69,33 +68,30 @@ namespace QtHandles
   }
 
   ToolBar*
-  ToolBar::create (octave::base_qobject& oct_qobj, octave::interpreter& interp,
-                   const graphics_object& go)
+  ToolBar::create (const graphics_object& go)
   {
-    Object *parent = parentObject (interp, go);
+    Object *parent = Object::parentObject (go);
 
     if (parent)
       {
         QWidget *parentWidget = parent->qWidget<QWidget> ();
 
         if (parentWidget)
-          return new ToolBar (oct_qobj, interp, go,
-                              new QToolBar (parentWidget));
+          return new ToolBar (go, new QToolBar (parentWidget));
       }
 
     return nullptr;
   }
 
-  ToolBar::ToolBar (octave::base_qobject& oct_qobj, octave::interpreter& interp,
-                    const graphics_object& go, QToolBar *bar)
-    : Object (oct_qobj, interp, go, bar), m_empty (nullptr), m_figure (nullptr)
+  ToolBar::ToolBar (const graphics_object& go, QToolBar *bar)
+    : Object (go, bar), m_empty (nullptr), m_figure (nullptr)
   {
     uitoolbar::properties& tp = properties<uitoolbar> ();
 
     bar->setFloatable (false);
     bar->setMovable (false);
     bar->setVisible (tp.is_visible ());
-    bar->setStyleSheet (bar->styleSheet () + global_toolbar_style);
+    bar->setStyleSheet (bar->styleSheet ());
 
 
     m_empty = addEmptyAction (bar);

@@ -31,12 +31,6 @@
 class QFrame;
 class QLabel;
 
-namespace octave
-{
-  class base_qobject;
-  class interpreter;
-}
-
 namespace QtHandles
 {
 
@@ -45,17 +39,14 @@ namespace QtHandles
   class Panel : public Object
   {
   public:
-    Panel (octave::base_qobject& oct_qobj, octave::interpreter& interp,
-           const graphics_object& go, QFrame *frame);
+    Panel (const graphics_object& go, QFrame *frame);
     ~Panel (void);
 
     Container * innerContainer (void) { return m_container; }
 
     bool eventFilter (QObject *watched, QEvent *event);
 
-    static Panel *
-    create (octave::base_qobject& oct_qobj, octave::interpreter& interp,
-            const graphics_object& go);
+    static Panel * create (const graphics_object& go);
 
     void do_connections (const QObject *receiver,
                          const QObject *emitter = nullptr);

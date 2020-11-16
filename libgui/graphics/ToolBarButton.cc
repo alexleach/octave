@@ -28,20 +28,27 @@
 // this file.
 
 #include <QAction>
-#include <QIcon>
 #include <QWidget>
 
 #include "ToolBarButton.h"
 #include "QtHandlesUtils.h"
-#include "octave-qobject.h"
+//#include "octave-qobject.h"
 
 namespace QtHandles
 {
+  static QIcon get_icon (const std::string& name)
+  {
+    // FIXME: Don't rely on the main GUI's resource manager.
+    // However, we don't necessarily have the icon resource :/actions
+    // Can we move the relevant icons to our own resource cache?
+    QString qs = QString::fromStdString(name);
+    return QIcon::fromTheme(qs,
+                            QIcon(":/actions/icons/" + qs + ".png"));
+  }
+
   template <typename T>
-  ToolBarButton<T>::ToolBarButton (octave::base_qobject& oct_qobj,
-                                   octave::interpreter& interp,
-                                   const graphics_object& go, QAction *action)
-    : Object (oct_qobj, interp, go, action), m_separator (nullptr)
+  ToolBarButton<T>::ToolBarButton (const graphics_object& go, QAction *action)
+    : Object (go, action), m_separator (nullptr)
   {
     typename T::properties& tp = properties<T> ();
 
@@ -71,7 +78,8 @@ namespace QtHandles
       }
     action->setEnabled (tp.is_enable ());
 
-    QWidget *w = qobject_cast<QWidget *> (action->parent ());
+    //QWidget *w = qobject_cast<QWidget *> (action->parent ());
+    QWidget *w = action->parentWidget ();
 
     w->insertAction (w->actions ().back (), action);
     if (m_separator)
@@ -129,7 +137,8 @@ namespace QtHandles
                 m_separator->setSeparator (true);
                 m_separator->setVisible (tp.is_visible ());
 
-                QWidget *w = qobject_cast<QWidget *> (action->parent ());
+                //QWidget *w = qobject_cast<QWidget *> (action->parent ());
+                QWidget *w = action->parentWidget ();
 
                 w->insertAction (action, m_separator);
               }
@@ -150,14 +159,6 @@ namespace QtHandles
         Object::update (pId);
         break;
       }
-  }
-
-  template <typename T>
-  QIcon ToolBarButton<T>::get_icon (const std::string& name)
-  {
-    octave::resource_manager& rmgr = m_octave_qobj.get_resource_manager ();
-
-    return rmgr.icon (QString::fromStdString (name));
   }
 
 }

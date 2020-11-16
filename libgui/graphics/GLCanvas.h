@@ -49,18 +49,12 @@
 #include "gl-render.h"
 #include "qopengl-functions.h"
 
-namespace octave
-{
-  class base_qobject;
-}
-
 namespace QtHandles
 {
   class GLCanvas : public OCTAVE_QT_OPENGL_WIDGET, public Canvas
   {
   public:
-    GLCanvas (octave::base_qobject& oct_qobj, octave::interpreter& interp,
-              const graphics_handle& handle, QWidget *parent);
+    GLCanvas (QWidget *parent, const graphics_handle& handle);
     ~GLCanvas (void);
 
     void initializeGL (void);
