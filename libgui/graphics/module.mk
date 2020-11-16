@@ -205,7 +205,7 @@ OCT_FILE_PKG_ADD_FILES += \
   $(GRAPHICS_PKG_ADD_FILE)
 
 libgui_EXTRA_DIST += \
-  $(__init_qt___UI)
+  $(__init_qt___UI) \
   %reldir%/resource.qrc \
   $(__init_qt__ICONS)
 
