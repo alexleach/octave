@@ -32,16 +32,18 @@
 
 #include "ToolBarButton.h"
 #include "QtHandlesUtils.h"
-#include "octave-qobject.h"
+//#include "octave-qobject.h"
 
 namespace QtHandles
 {
   static QIcon get_icon (const std::string& name)
   {
-    octave::resource_manager& rmgr
-      = octave::__get_resource_manager__ ("get_icon");
-
-    return rmgr.icon (QString::fromStdString (name));
+    // FIXME: Don't rely on the main GUI's resource manager.
+    // However, we don't necessarily have the icon resource :/actions
+    // Can we move the relevant icons to our own resource cache?
+    QString qs = QString::fromStdString(name);
+    return QIcon::fromTheme(qs,
+                            QIcon(":/actions/icons/" + qs + ".png"));
   }
 
   template <typename T>
@@ -76,7 +78,8 @@ namespace QtHandles
       }
     action->setEnabled (tp.is_enable ());
 
-    QWidget *w = qobject_cast<QWidget *> (action->parent ());
+    //QWidget *w = qobject_cast<QWidget *> (action->parent ());
+    QWidget *w = action->parentWidget ();
 
     w->insertAction (w->actions ().back (), action);
     if (m_separator)
@@ -134,7 +137,8 @@ namespace QtHandles
                 m_separator->setSeparator (true);
                 m_separator->setVisible (tp.is_visible ());
 
-                QWidget *w = qobject_cast<QWidget *> (action->parent ());
+                //QWidget *w = qobject_cast<QWidget *> (action->parent ());
+                QWidget *w = action->parentWidget ();
 
                 w->insertAction (action, m_separator);
               }

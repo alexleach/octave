@@ -1,0 +1,20 @@
+<RCC>
+    <qresource prefix="/graphics">
+        <file>icons/bottom_left_corner.png</file>
+        <file>icons/bottom_right_corner.png</file>
+        <file>icons/bottom_side.png</file>
+        <file>icons/circle.png</file>
+        <file>icons/cross.png</file>
+        <file>icons/figure-pan.png</file>
+        <file>icons/figure-rotate.png</file>
+        <file>icons/figure-zoom-in.png</file>
+        <file>icons/figure-zoom-out.png</file>
+        <file>icons/fleur.png</file>
+        <file>icons/hand2.png</file>
+        <file>icons/left_side.png</file>
+        <file>icons/right_side.png</file>
+        <file>icons/top_left_corner.png</file>
+        <file>icons/top_right_corner.png</file>
+        <file>icons/top_side.png</file>
+    </qresource>
+</RCC>

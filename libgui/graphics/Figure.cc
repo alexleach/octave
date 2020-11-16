@@ -54,9 +54,6 @@
 #include "FigureWindow.h"
 #include "QtHandlesUtils.h"
 
-#include "gui-preferences-global.h"
-#include "qt-interpreter-events.h"
-
 #include "file-ops.h"
 #include "unwind-prot.h"
 #include "utils.h"
@@ -123,11 +120,11 @@ namespace QtHandles
     m_container = new Container (win);
     win->setCentralWidget (m_container);
 
-    connect (m_container, SIGNAL (interpeter_event (const fcn_callback&)),
-             this, SIGNAL (interpeter_event (const fcn_callback&)));
+    connect (m_container, SIGNAL (interpreter_event (const fcn_callback&)),
+             this, SIGNAL (interpreter_event (const fcn_callback&)));
 
-    connect (m_container, SIGNAL (interpeter_event (const meth_callback&)),
-             this, SIGNAL (interpeter_event (const meth_callback&)));
+    connect (m_container, SIGNAL (interpreter_event (const meth_callback&)),
+             this, SIGNAL (interpreter_event (const meth_callback&)));
 
     figure::properties& fp = properties<figure> ();
 
@@ -141,7 +138,8 @@ namespace QtHandles
     m_menuBar = new MenuBar (win);
     win->setMenuBar (m_menuBar);
     m_menuBar->addReceiver (this);
-    m_menuBar->setStyleSheet (m_menuBar->styleSheet () + global_menubar_style);
+    //m_menuBar->setStyleSheet (m_menuBar->styleSheet () + global_menubar_style);
+    m_menuBar->setStyleSheet (m_menuBar->styleSheet ());
 
 
     // Status bar

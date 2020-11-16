@@ -142,6 +142,9 @@ namespace QtHandles
                         std::vector<std::string> omit = std::vector<std::string> ());
 
   private:
+
+    QCursor make_cursor (const QString& name, int hot_x = -1, int hot_y = -1);
+
     graphics_handle m_handle;
     bool m_redrawBlocked;
     MouseMode m_mouseMode;

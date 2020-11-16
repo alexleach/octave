@@ -30,6 +30,7 @@
 #include <QApplication>
 #include <QBitmap>
 #include <QCursor>
+#include <QIcon>
 #include <QInputDialog>
 #include <QList>
 #include <QMouseEvent>
@@ -41,10 +42,7 @@
 #include "GLCanvas.h"
 #include "QtHandlesUtils.h"
 #include "qt-graphics-toolkit.h"
-
 #include "annotation-dialog.h"
-#include "octave-qobject.h"
-#include "qt-interpreter-events.h"
 
 #include "builtin-defun-decls.h"
 #include "graphics.h"
@@ -75,15 +73,13 @@ namespace QtHandles
     m_redrawBlocked = block;
   }
 
-  static QCursor
-  make_cursor (const QString& name, int hot_x  = -1, int hot_y = -1)
+  QCursor
+  Canvas::make_cursor (const QString& name, int hot_x, int hot_y)
   {
-    octave::resource_manager& rmgr
-      = octave::__get_resource_manager__ ("make_cursor");
-
-    QIcon icon = rmgr.icon (name);
-
-    return QCursor (icon.pixmap (22, 22), hot_x, hot_y);
+    // Use system icon theme with own files as fallback except.
+    QIcon icon = QIcon::fromTheme (name,
+                             QIcon (":/graphics/icons/" + name + ".png"));
+    return QCursor (icon.pixmap(22, 22), hot_x, hot_y);
   }
 
   void
@@ -923,7 +919,8 @@ namespace QtHandles
 
             if (childObj.isa ("axes"))
               {
-                graphics_object go = selectFromAxes (childObj, event->pos ());
+                //graphics_object go = selectFromAxes (childObj, event->pos ());
+                graphics_object go = selectFromAxes (childObj, event->position ().toPoint ());
 
                 if (go)
                   {
@@ -949,7 +946,7 @@ namespace QtHandles
 
                 if (zoom_enabled (figObj))
                   {
-                    if (event->delta () > 0)
+                    if (event->angleDelta ().y () > 0)
                       newMouseMode = ZoomInMode;
                     else
                       newMouseMode = ZoomOutMode;
@@ -991,7 +988,7 @@ namespace QtHandles
                 {
                   axes::properties& ap = Utils::properties<axes> (axesObj);
 
-                  double factor = (event->delta () > 0 ? 0.1 : -0.1);
+                  double factor = (event->angleDelta ().y () > 0 ? 0.1 : -0.1);
 
                   if (event->modifiers () == Qt::NoModifier
                       && mode != "horizontal")

@@ -31,8 +31,9 @@
 #include <QPushButton>
 #include <QPalette>
 
-#include "gui-settings.h"
-#include "resource-manager.h"
+// Remove dependency on Main GUI
+//#include "gui-settings.h"
+//#include "resource-manager.h"
 
 #include "QtHandlesUtils.h"
 #include "annotation-dialog.h"
@@ -53,6 +54,10 @@ annotation_dialog::init ()
 {
   ui->setupUi (this);
 
+/*
+ * Connect to the resource manager just to get the geometry?
+ * Maybe QtHandles should have its own Resource Manager?
+ *
   octave::resource_manager& rmgr
       = octave::__get_resource_manager__ ("annotation_dialog::init");
 
@@ -61,6 +66,7 @@ annotation_dialog::init ()
   // restore last geometry
   if (settings && settings->contains (gp_annotation_geometry.key))
     restoreGeometry (settings->value (gp_annotation_geometry).toByteArray ());
+*/
 
   // connect signals
   connect (ui->button_box, SIGNAL (clicked (QAbstractButton *)),
@@ -100,6 +106,9 @@ annotation_dialog::button_clicked (QAbstractButton *button)
   QDialogButtonBox::ButtonRole button_role
     = ui->button_box->buttonRole (button);
 
+/*
+ * Again, connecting to the resource manager, just to save dimensions.
+ * Remove the dependency.
   octave::resource_manager& rmgr
       = octave::__get_resource_manager__ ("annotation_dialog::button_clicked");
 
@@ -108,6 +117,7 @@ annotation_dialog::button_clicked (QAbstractButton *button)
   // save position
   if (settings)
     settings->setValue (gp_annotation_geometry.key, saveGeometry ());
+*/
 
   if (button_role == QDialogButtonBox::ApplyRole
       || button_role == QDialogButtonBox::AcceptRole)

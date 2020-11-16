@@ -40,6 +40,9 @@ namespace QtHandles
     ~CheckBoxControl (void);
 
     static CheckBoxControl * create (const graphics_object& go);
+
+  protected:
+    void update (int pId);
   };
 
 }

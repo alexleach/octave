@@ -40,6 +40,9 @@ namespace QtHandles
     ~RadioButtonControl (void);
 
     static RadioButtonControl * create (const graphics_object& go);
+
+  protected:
+    void update (int pId);
   };
 
 }
