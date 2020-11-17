@@ -32,7 +32,6 @@
 
 #include "ToolBarButton.h"
 #include "QtHandlesUtils.h"
-//#include "octave-qobject.h"
 
 namespace QtHandles
 {
@@ -43,7 +42,7 @@ namespace QtHandles
     // Can we move the relevant icons to our own resource cache?
     QString qs = QString::fromStdString(name);
     return QIcon::fromTheme(qs,
-                            QIcon(":/actions/icons/" + qs + ".png"));
+                            QIcon(":/graphics/icons/" + qs + ".png"));
   }
 
   template <typename T>

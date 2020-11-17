@@ -38,6 +38,8 @@ namespace QtHandles
     : FigureWindowBase (xparent)
   {
     // set icon from application resources
+    // FIXME: This currently refers to icon in the main GUI source code.
+    // Should we copy the icon to the local resource file?
     setWindowIcon (QIcon (":/actions/icons/logo.png"));
   }
 

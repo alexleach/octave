@@ -216,7 +216,7 @@ DEFUN_DLD (__uigetfile_qt__, args, , "")
       QString filter;
       QStringList files =
         QFileDialog::getOpenFileNames (0, caption, defaultFileName,
-                                       filterSpecs.join (";;"), &filter, 0);
+                                       filterSpecs.join (";;"), &filter);
 
       if (! files.isEmpty ())
         {

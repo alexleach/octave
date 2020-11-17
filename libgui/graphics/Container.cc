@@ -68,11 +68,11 @@ namespace QtHandles
             m_canvas = Canvas::create (fig.get ("renderer").string_value (),
                                        this, gh);
 
-            connect (m_canvas, SIGNAL (interpreter_event (const fcn_callback&)),
-                     this, SIGNAL (interpreter_event (const fcn_callback&)));
+            connect (m_canvas, SIGNAL (interpreter_event (const octave::fcn_callback&)),
+                     this, SIGNAL (interpreter_event (const octave::fcn_callback&)));
 
-            connect (m_canvas, SIGNAL (interpreter_event (const meth_callback&)),
-                     this, SIGNAL (interpreter_event (const meth_callback&)));
+            connect (m_canvas, SIGNAL (interpreter_event (const octave::meth_callback&)),
+                     this, SIGNAL (interpreter_event (const octave::meth_callback&)));
 
             connect (m_canvas,
                      SIGNAL (gh_callback_event (const graphics_handle&,

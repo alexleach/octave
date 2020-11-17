@@ -31,9 +31,13 @@ __init_qt__ICONS = \
   %reldir%/icons/bottom_side.png \
   %reldir%/icons/circle.png \
   %reldir%/icons/cross.png \
+  %reldir%/icons/figure-axes \
+  %reldir%/icons/figure-grid \
   %reldir%/icons/figure-pan.png \
   %reldir%/icons/figure-rotate.png \
+  %reldir%/icons/figure-text \
   %reldir%/icons/figure-zoom-in.png \
+  %reldir%/icons/figure-zoom-original \
   %reldir%/icons/figure-zoom-out.png \
   %reldir%/icons/fleur.png \
   %reldir%/icons/hand2.png \
@@ -50,6 +54,11 @@ DIRSTAMP_FILES += \
 
 __init_qt___MOC = \
   $(OCTAVE_GUI_GRAPHICS_MOC)
+
+__init_qt___RC = \
+  %reldir%/qrc-resource.cc
+
+$(__init_qt___RC): | %reldir%/$(octave_dirstamp)
 
 __init_qt___UI = \
   %reldir%/annotation-dialog.ui
@@ -140,7 +149,9 @@ noinst_HEADERS += \
 TEMPLATE_SRC = \
   %reldir%/ToolBarButton.cc
 
-nodist_%canon_reldir%___init_qt___la_SOURCES = $(__init_qt___MOC)
+nodist_%canon_reldir%___init_qt___la_SOURCES = \
+  $(__init_qt___MOC) \
+  $(__init_qt___RC)
 
 %canon_reldir%___init_qt___la_CPPFLAGS = \
   $(AM_CPPFLAGS) \
@@ -213,6 +224,7 @@ libgui_CLEANFILES += \
   $(GRAPHICS_OCT_FILES) \
   $(GRAPHICS_PKG_ADD_FILE) \
   $(__init_qt___MOC) \
+  $(__init_qt___RC) \
   $(__init_qt___UI_H)
 
 endif
