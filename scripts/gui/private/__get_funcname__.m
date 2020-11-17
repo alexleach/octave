@@ -33,17 +33,17 @@
 
 function funcname = __get_funcname__ (basename)
 
-  if (! __event_manager_enabled__ ())
-    tk = graphics_toolkit ();
+  % Default return value is the empty string.
+  funcname = "";
+  tk = graphics_toolkit ();
+  if (numel (tk) > 0)
+    % Assume the function exists within the loaded graphics toolkit.
     funcname = [ "__" basename "_" tk "__"];
-    if (numel (tk) > 0 && ! strcmp (tk, "fltk")
-        && ! __is_function__ (funcname))
+    if (! strcmp (tk, "fltk") && ! __is_function__ (funcname))
+      % If it doesn't exist, fallback to fltk. Any point testing for fltk?
       warning ("%s: no implementation for toolkit '%s', using 'fltk' instead",
-               basename, tk);
+                basename, tk);
+      funcname = ["__" basename "_fltk__"];
     endif
-    funcname = ["__" basename "_fltk__"];
-  else
-    funcname = "";
   endif
-
 endfunction

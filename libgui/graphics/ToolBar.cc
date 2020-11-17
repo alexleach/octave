@@ -41,8 +41,6 @@
 #include "ToolBar.h"
 #include "QtHandlesUtils.h"
 
-#include <iostream>
-
 namespace QtHandles
 {
   static QIcon makeEmptyIcon (void)
