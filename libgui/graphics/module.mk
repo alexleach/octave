@@ -23,6 +23,7 @@ OCTAVE_GUI_GRAPHICS_MOC = \
   %reldir%/moc-ToggleTool.cc \
   %reldir%/moc-ToolBar.cc \
   %reldir%/moc-annotation-dialog.cc \
+  %reldir%/moc-file-dialogs.cc \
   %reldir%/moc-qt-graphics-toolkit.cc
 
 __init_qt__ICONS = \
@@ -105,6 +106,7 @@ noinst_HEADERS += \
   %reldir%/ToolBarButton.h \
   %reldir%/__init_qt__.h \
   %reldir%/annotation-dialog.h \
+  %reldir%/file-dialogs.h \
   %reldir%/gl-select.h \
   %reldir%/qopengl-functions.h \
   %reldir%/qt-graphics-toolkit.h \
@@ -143,6 +145,7 @@ noinst_HEADERS += \
   %reldir%/ToolBar.cc \
   %reldir%/__init_qt__.cc \
   %reldir%/annotation-dialog.cc \
+  %reldir%/file-dialogs.cc \
   %reldir%/gl-select.cc \
   %reldir%/qt-graphics-toolkit.cc
 

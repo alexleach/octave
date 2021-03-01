@@ -26,15 +26,13 @@ along with Octave; see the file COPYING.  If not, see
 
 #include <QApplication>
 #include <QDir>
-#include <QFileDialog>
-#include <QMetaType>
-#include <QPalette>
 #include <QRegExp>
 #include <QThread>
 
 #include "qt-graphics-toolkit.h"
 #include "QtHandlesUtils.h"
 #include "__init_qt__.h"
+#include "file-dialogs.h"
 
 #include "defun-dld.h"
 #include "graphics.h"
@@ -211,12 +209,14 @@ DEFUN_DLD (__uigetfile_qt__, args, , "")
 
   QStringList filterSpecs = makeFilterSpecs (args(0).cell_value ());
 
+  FileDialog file_dialog;
+
   if (isMultiSelect)
     {
       QString filter;
       QStringList files =
-        QFileDialog::getOpenFileNames (0, caption, defaultFileName,
-                                       filterSpecs.join (";;"), &filter);
+        file_dialog.getOpenFileNames (0, caption, defaultFileName,
+                                      filterSpecs.join (";;"), &filter);
 
       if (! files.isEmpty ())
         {
@@ -243,8 +243,8 @@ DEFUN_DLD (__uigetfile_qt__, args, , "")
     {
       QString filter;
       QString fileName =
-        QFileDialog::getOpenFileName (0, caption, defaultFileName,
-                                      filterSpecs.join (";;"), &filter);
+        file_dialog.getOpenFileName (0, caption, defaultFileName,
+                                     filterSpecs.join (";;"), &filter);
 
       if (! fileName.isNull ())
         {
@@ -290,8 +290,9 @@ DEFUN_DLD (__uiputfile_qt__, args, , "")
   QStringList filterSpecs = makeFilterSpecs (args(0).cell_value ());
 
   QString filter;
+  FileDialog file_dialog;
   QString fileName =
-    QFileDialog::getSaveFileName (0, caption, defaultFileName,
+    file_dialog.getSaveFileName (0, caption, defaultFileName,
                                   filterSpecs.join (";;"), &filter);
 
   if (! fileName.isNull ())
@@ -323,8 +324,8 @@ DEFUN_DLD (__uigetdir_qt__, args, , "")
   QString caption = fromStdString (args(1).string_value ());
   QString defaultDirectory = fromStdString (args(0).string_value ());
 
-  QString dirName = QFileDialog::getExistingDirectory (0, caption,
-                    defaultDirectory);
+  FileDialog file_dialog;
+  QString dirName = file_dialog.getExistingDirectory(0, caption, defaultDirectory);
 
   if (! dirName.isNull ())
     retval = toStdString (dirName);
